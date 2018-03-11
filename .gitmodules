@@ -2,3 +2,6 @@
 	path = jdbc
 	url = ../mysql-connector-cpp.git
 	branch = jdbc
+[submodule "cdk/protobuf/protobuf"]
+	path = cdk/protobuf/protobuf
+	url = https://github.com/google/protobuf

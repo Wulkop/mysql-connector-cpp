@@ -188,7 +188,7 @@ add_compile_options(${warnings_list})
 
 
 SET(PROTO_SRC_DIR
-  "${PROJECT_SOURCE_DIR}/protobuf-2.6.1/src")
+  "${PROJECT_SOURCE_DIR}/protobuf/src")
 
 set(build_stamp "${PROJECT_BINARY_DIR}/build.stamp")
 
@@ -210,6 +210,9 @@ INCLUDE_DIRECTORIES(
 
 
 SET(LIBPROTOBUF_LITE_SOURCES
+  ${PROTO_SRC_DIR}/google/protobuf/arena.cc
+  
+  
   ${PROTO_SRC_DIR}/google/protobuf/stubs/common.cc
   ${PROTO_SRC_DIR}/google/protobuf/stubs/once.cc
   ${PROTO_SRC_DIR}/google/protobuf/stubs/hash.h
@@ -249,6 +252,17 @@ SET_PROPERTY(TARGET protobuf-lite PROPERTY EXCLUDE_FROM_ALL TRUE)
 pb_export(protobuf-lite)
 
 SET(LIBPROTOBUF_SOURCES
+  ${PROTO_SRC_DIR}/google/protobuf/arena.cc
+  ${PROTO_SRC_DIR}/google/protobuf/stubs/io_win32.cc
+  ${PROTO_SRC_DIR}/google/protobuf/stubs/stringpiece.cc
+  ${PROTO_SRC_DIR}/google/protobuf/map_field.cc
+  ${PROTO_SRC_DIR}/google/protobuf/any.cc
+  ${PROTO_SRC_DIR}/google/protobuf/any.pb.cc
+  ${PROTO_SRC_DIR}/google/protobuf/stubs/status.cc
+  ${PROTO_SRC_DIR}/google/protobuf/stubs/common.cc
+  ${PROTO_SRC_DIR}/google/protobuf/stubs/int128.cc
+  ${PROTO_SRC_DIR}/google/protobuf/implicit_weak_message.cc
+  
   ${PROTO_SRC_DIR}/google/protobuf/stubs/strutil.cc
   ${PROTO_SRC_DIR}/google/protobuf/stubs/strutil.h
   ${PROTO_SRC_DIR}/google/protobuf/stubs/substitute.cc
@@ -285,75 +299,109 @@ TARGET_LINK_LIBRARIES(protobuf protobuf-lite
 
 pb_export(protobuf)
 
-SET(LIBPROTOC_SOURCES
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/code_generator.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/command_line_interface.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/plugin.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/plugin.pb.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/subprocess.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/subprocess.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/zip_writer.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/zip_writer.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_enum.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_enum.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_enum_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_enum_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_extension.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_extension.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_file.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_file.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_generator.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_helpers.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_helpers.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_message.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_message.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_message_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_message_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_options.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_primitive_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_primitive_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_service.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_service.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_string_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_string_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_context.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_context.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_enum.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_enum.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_enum_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_enum_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_extension.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_extension.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_file.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_file.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_generator.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_generator_factory.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_generator_factory.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_helpers.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_helpers.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_lazy_message_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_lazy_message_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_message.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_message.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_message_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_message_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_name_resolver.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_name_resolver.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_primitive_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_primitive_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_shared_code_generator.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_shared_code_generator.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_service.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_service.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_string_field.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_string_field.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_doc_comment.cc
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_doc_comment.h
-  ${PROTO_SRC_DIR}/google/protobuf/compiler/python/python_generator.cc
+
+set(LIBPROTOC_SOURCES
+
+	${PROTO_SRC_DIR}/google/protobuf/compiler/code_generator.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/command_line_interface.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_enum.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_enum_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_extension.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_file.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_generator.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_helpers.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_map_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_message.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_message_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_padding_optimizer.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_primitive_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_service.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/cpp/cpp_string_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_doc_comment.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_enum.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_enum_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_field_base.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_generator.cc 
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_helpers.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_map_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_message.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_message_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_primitive_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_reflection_class.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_repeated_enum_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_repeated_message_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_repeated_primitive_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_source_generator_base.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/csharp/csharp_wrapper_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/importer.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_context.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_doc_comment.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_enum.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_enum_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_enum_field_lite.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_enum_lite.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_extension.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_extension_lite.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_file.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_generator.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_generator_factory.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_helpers.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_lazy_message_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_lazy_message_field_lite.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_map_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_map_field_lite.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_message.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_message_builder.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_message_builder_lite.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_message_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_message_field_lite.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_message_lite.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_name_resolver.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_primitive_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_primitive_field_lite.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_service.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_shared_code_generator.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_string_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/java/java_string_field_lite.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_enum.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_enum_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_extension.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_file.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_generator.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_helpers.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_map_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_message.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_message_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/javanano/javanano_primitive_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/js/embed.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/js/js_generator.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/js/well_known_types_embed.cc
+
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_enum.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_enum_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_extension.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_file.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_generator.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_helpers.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_map_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_message.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_message_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_oneof.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/objectivec/objectivec_primitive_field.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/parser.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/php/php_generator.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/plugin.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/plugin.pb.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/python/python_generator.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/ruby/ruby_generator.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/subprocess.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/test_plugin.cc
+	${PROTO_SRC_DIR}/google/protobuf/compiler/zip_writer.cc
+
 )
 
 ADD_LIBRARY(protoclib STATIC ${LIBPROTOC_SOURCES})
@@ -364,6 +412,18 @@ TARGET_LINK_LIBRARIES(protoc protoclib)
 
 ADD_CUSTOM_COMMAND(TARGET protoc POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E touch ${build_stamp}
+)
+
+set(js_well_known_types_sources
+  ${PROTO_SRC_DIR}/google/protobuf/compiler/js/well_known_types/any.js
+  ${PROTO_SRC_DIR}/google/protobuf/compiler/js/well_known_types/struct.js
+  ${PROTO_SRC_DIR}/google/protobuf/compiler/js/well_known_types/timestamp.js
+)
+add_executable(js_embed ${PROTO_SRC_DIR}/google/protobuf/compiler/js/embed.cc)
+add_custom_command(
+  OUTPUT ${PROTO_SRC_DIR}/google/protobuf/compiler/js/well_known_types_embed.cc
+  DEPENDS js_embed ${js_well_known_types_sources}
+  COMMAND js_embed ${js_well_known_types_sources} > ${PROTO_SRC_DIR}/google/protobuf/compiler/js/well_known_types_embed.cc
 )
 
 pb_export(protoc)

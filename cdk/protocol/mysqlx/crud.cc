@@ -295,7 +295,7 @@ public:
 class Placeholder_conv_imp
     : public Args_conv
 {
-  map<string, unsigned> m_map;
+  std::map<string, unsigned> m_map;
 
 public:
 
@@ -303,7 +303,7 @@ public:
 
   unsigned conv_placeholder(const string &name)
   {
-    map<string, unsigned>::const_iterator it = m_map.find(name);
+    std::map<string, unsigned>::const_iterator it = m_map.find(name);
     if (it == m_map.end())
       throw_error("Placeholder converter: Placeholder was not defined on args");
       //throw Generic_error((boost::format("Placeholder %s was not defined on args.")
@@ -314,7 +314,7 @@ public:
 
   void add_placeholder(const string &name)
   {
-    map<string, unsigned>::const_iterator it = m_map.find(name);
+    std::map<string, unsigned>::const_iterator it = m_map.find(name);
     if (it != m_map.end())
       throw_error("Placeholder converter: Redefined placeholder");
       //throw Generic_error((boost::format("Redifined placeholder %s.")
