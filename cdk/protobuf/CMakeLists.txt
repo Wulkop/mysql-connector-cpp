@@ -211,7 +211,7 @@ INCLUDE_DIRECTORIES(
 
 SET(LIBPROTOBUF_LITE_SOURCES
   ${PROTO_SRC_DIR}/google/protobuf/arena.cc
-  
+  ${PROTO_SRC_DIR}/google/protobuf/stubs/structurally_valid.cc
   
   ${PROTO_SRC_DIR}/google/protobuf/stubs/common.cc
   ${PROTO_SRC_DIR}/google/protobuf/stubs/once.cc
